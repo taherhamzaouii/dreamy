@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { useThemeStore } from '../../stores/themeStore';
 import { StarField } from '../animations/StarField';
 import { CosmicDust } from '../animations/CosmicDust';
@@ -8,6 +9,7 @@ import { NebulaEffect } from '../animations/NebulaEffect';
 
 export const LandingPage: React.FC = () => {
     const { isDarkMode, toggleTheme } = useThemeStore();
+    const navigate = useNavigate();
 
     return (
         <div className={`min-h-screen relative overflow-hidden transition-all duration-1000 font-dm-sans ${isDarkMode
@@ -55,15 +57,16 @@ export const LandingPage: React.FC = () => {
 
             {/* Start Journaling Button */}
             <motion.button
-                className={`fixed bottom-8 right-8 px-6 py-3 rounded-full backdrop-blur-md border transition-all duration-300 font-medium ${isDarkMode
+                onClick={() => navigate('/calendar')}
+                className={`fixed bottom-8 right-8 px-6 py-3 rounded-full backdrop-blur-md border font-medium ${isDarkMode
                     ? 'bg-white/10 border-white/20 text-white hover:bg-white/20'
                     : 'bg-purple-500/20 border-purple-500/30 text-purple-800 hover:bg-purple-500/30'
                     }`}
+                style={{ opacity: 0 }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 1.5 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1, delay: 1.5, ease: "easeInOut" }}
             >
                 Start Journaling
             </motion.button>
