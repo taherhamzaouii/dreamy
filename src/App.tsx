@@ -1,5 +1,5 @@
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AppLayout } from './components/layout/AppLayout';
 import { LandingPage } from './components/landing/LandingPage';
 import { CalendarView } from './components/calendar/CalendarView';
 import './App.css';
@@ -14,11 +14,13 @@ function App() {
 
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/calendar" element={<CalendarView dreamDates={mockDreamDates} />} />
-        <Route path="/dream/:date" element={<div>Dream Chat Coming Soon...</div>} />
-      </Routes>
+      <AppLayout>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/calendar" element={<CalendarView dreamDates={mockDreamDates} />} />
+          <Route path="/dream/:date" element={<div>Dream Chat Coming Soon...</div>} />
+        </Routes>
+      </AppLayout>
     </Router>
   );
 }

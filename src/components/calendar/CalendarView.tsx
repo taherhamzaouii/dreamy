@@ -12,6 +12,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({ dreamDates }) => {
     const { isDarkMode } = useThemeStore();
     const navigate = useNavigate();
     const [currentDate, setCurrentDate] = useState(new Date());
+    const [isScrolled, setIsScrolled] = useState(false);
 
     const monthStart = startOfMonth(currentDate);
     const monthEnd = endOfMonth(currentDate);
@@ -46,18 +47,28 @@ export const CalendarView: React.FC<CalendarViewProps> = ({ dreamDates }) => {
         setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1));
     };
 
+    const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+        const scrollTop = e.currentTarget.scrollTop;
+        setIsScrolled(scrollTop > 10);
+    };
+
     return (
-        <div className={`h-screen flex flex-col transition-all duration-1000 font-dm-sans ${isDarkMode
-            ? 'bg-gradient-to-b from-slate-900 via-blue-900 to-indigo-900 text-white'
-            : 'bg-gradient-to-br from-blue-200 via-purple-200 to-pink-200 text-purple-900'
-            }`}>
+        <div className="h-screen flex flex-col">
 
             {/* Header */}
-            <div className="h-16 px-8 pt-8 flex-shrink-0">
-                <div className="flex items-center justify-between h-full">
+            <div className={`h-24 px-8 pt-8 flex-shrink-0 relative transition-shadow duration-300 ${isDarkMode
+                ? 'bg-gradient-to-b from-slate-900/95 via-slate-900/80 via-slate-900/40 to-transparent'
+                : 'bg-gradient-to-b from-blue-200/95 via-purple-200/80 via-purple-200/40 to-transparent'
+                } ${isScrolled
+                    ? isDarkMode
+                        ? 'shadow-lg shadow-black/20'
+                        : 'shadow-lg shadow-purple-500/20'
+                    : ''
+                }`}>
+                <div className="flex items-start justify-between h-16 relative z-10">
                     <button
                         onClick={() => navigate('/')}
-                        className={`px-4 py-2 rounded-md backdrop-blur-md border transition-all duration-300 ${isDarkMode
+                        className={`px-3 py-2 rounded-md backdrop-blur-md border transition-all duration-300 ${isDarkMode
                             ? 'bg-white/10 border-white/20 text-white hover:bg-white/20'
                             : 'bg-purple-500/20 border-purple-500/30 text-purple-800 hover:bg-purple-500/30'
                             }`}
@@ -105,7 +116,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({ dreamDates }) => {
             </div>
 
             {/* Calendar Grid */}
-            <div className="flex-1 overflow-y-auto px-8 py-6">
+            <div className="flex-1 overflow-y-auto px-8 py-6" onScroll={handleScroll}>
                 <div>
                     {/* Day Headers */}
                     <div className="grid grid-cols-7 gap-2 mb-4">
