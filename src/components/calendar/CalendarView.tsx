@@ -2,14 +2,12 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useThemeStore } from '../../stores/themeStore';
+import { useDreamStore } from '../../stores/dreamStore';
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isToday, isBefore } from 'date-fns';
 
-interface CalendarViewProps {
-    dreamDates: Date[]; // Dates that have dream entries
-}
-
-export const CalendarView: React.FC<CalendarViewProps> = ({ dreamDates }) => {
+export const CalendarView: React.FC = () => {
     const { isDarkMode } = useThemeStore();
+    const { getDreamByDate } = useDreamStore();
     const navigate = useNavigate();
     const [currentDate, setCurrentDate] = useState(new Date());
     const [isScrolled, setIsScrolled] = useState(false);
@@ -25,9 +23,9 @@ export const CalendarView: React.FC<CalendarViewProps> = ({ dreamDates }) => {
     );
 
     const hasDream = (date: Date) => {
-        return dreamDates.some(dreamDate =>
-            dreamDate.toDateString() === date.toDateString()
-        );
+        const dateString = date.toISOString().split('T')[0];
+        const dream = getDreamByDate(dateString);
+        return dream && dream.imageUrl; // Only show indicator if dream has an image
     };
 
     // Check if we're at the current month to disable previous navigation
