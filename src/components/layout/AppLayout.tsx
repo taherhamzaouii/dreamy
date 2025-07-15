@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useThemeStore } from '../../stores/themeStore';
 import { SettingsModal } from '../settings/SettingsModal';
+import { CustomTitlebar } from '../ui/CustomTitlebar';
 
 interface AppLayoutProps {
     children: React.ReactNode;
@@ -12,13 +13,16 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
     return (
-        <div className={`relative transition-all duration-1000 font-dm-sans ${isDarkMode
+        <div className={`relative transition-all duration-1000 font-dm-sans rounded-xl overflow-hidden ${isDarkMode
             ? 'bg-gradient-to-b from-slate-900 via-blue-900 to-indigo-900 text-white'
             : 'bg-gradient-to-br from-blue-200 via-purple-200 to-pink-200 text-purple-900'
             }`}>
 
-            {/* Top Right Button Group */}
-            <div className="fixed top-8 right-8 flex space-x-3 z-50">
+            {/* Custom Titlebar */}
+            <CustomTitlebar />
+
+            {/* Top Right Button Group - moved down to avoid titlebar */}
+            <div className="fixed top-12 right-8 flex space-x-3 z-40">
                 {/* Settings Button */}
                 <motion.button
                     onClick={() => setIsSettingsOpen(true)}

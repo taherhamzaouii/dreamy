@@ -75,7 +75,7 @@ export const LandingPage: React.FC = () => {
                     >
                         Transform your dreams
                         <br />
-                        <span className={`transition-colors duration-1000 ${isDarkMode ? 'text-white' : 'text-pink-600'
+                        <span className={`transition-colors duration-1000 ${isDarkMode ? 'text-white' : 'text-purple-700'
                             }`}>
                             into visual stories
                         </span>

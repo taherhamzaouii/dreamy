@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useThemeStore } from '../../stores/themeStore';
 import { useDreamStore } from '../../stores/dreamStore';
-import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isToday, isBefore } from 'date-fns';
+import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isToday, isBefore, isSameDay } from 'date-fns';
 
 export const CalendarView: React.FC = () => {
     const { isDarkMode } = useThemeStore();
@@ -54,7 +54,7 @@ export const CalendarView: React.FC = () => {
         <div className="h-screen flex flex-col">
 
             {/* Header */}
-            <div className={`h-24 px-8 pt-8 flex-shrink-0 relative transition-shadow duration-300 ${isDarkMode
+            <div className={`h-24 px-8 pt-10 flex-shrink-0 relative transition-shadow duration-300 ${isDarkMode
                 ? 'bg-gradient-to-b from-slate-900/95 via-slate-900/80 via-slate-900/40 to-transparent'
                 : 'bg-gradient-to-b from-blue-200/95 via-purple-200/80 via-purple-200/40 to-transparent'
                 } ${isScrolled
@@ -129,7 +129,7 @@ export const CalendarView: React.FC = () => {
                     <div className="grid grid-cols-7 gap-2">
                         {days.map((day, index) => {
                             const hasEntry = hasDream(day);
-                            const isCurrentDay = isToday(day);
+                            const isCurrentDay = isSameDay(day, new Date());
 
                             return (
                                 <motion.button
@@ -139,7 +139,7 @@ export const CalendarView: React.FC = () => {
                                         navigate(`/dream/${dateString}`);
                                     }}
                                     className={`
-                                        aspect-square rounded-lg border transition-all duration-300 relative overflow-hidden
+                                        aspect-square rounded-lg border transition-[background-color,border-color] duration-300 relative overflow-hidden
                                         ${isDarkMode
                                             ? 'border-white/20 hover:border-white/40'
                                             : 'border-purple-500/20 hover:border-purple-500/40'
